@@ -1,0 +1,9 @@
+# IntelliJ settings (local run config and password)
+.idea/
+*.iml
+
+# build output
+target/
+
+# local secrets
+.env
