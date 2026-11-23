@@ -1,4 +1,23 @@
 package ie.tus.backend.parser;
 
-public class AibParserTest {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.io.StringReader;
+import java.math.BigDecimal;
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+
+class AibParserTest {
+
+    // made up row in the same format as a real AIB export for now
+    String csv = "Posted Account, Posted Transactions Date, Description, Debit Amount, Credit Amount,Balance,Transaction Type\n"
+            + "123456-12345678,06/11/2026,VDP-NETFLIX.COM,12.99,,40.06,Debit\n";
+
+    @Test
+    void readsDebitAsNegative() {
+        List<Transaction> result = new AibParser().parse(new StringReader(csv));
+
+        assertEquals(new BigDecimal("-12.99"), result.get(0).amount());
+    }
 }
