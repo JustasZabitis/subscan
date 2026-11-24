@@ -1,13 +1,13 @@
 package ie.tus.backend.parser;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import java.io.StringReader;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class BoiParserTest {
 
@@ -62,5 +62,20 @@ class BoiParserTest {
         List<Transaction> result = new BoiParser().parse(new StringReader(csvEnd));
 
         assertEquals(1, result.size());
+    }
+
+    @Test
+    void recognisesBoiHeader() {
+        String header = "Date,Details,Debit,Credit,Balance";
+
+        assertTrue(new BoiParser().canParse(header));
+    }
+
+    @Test
+    void doesNotRecogniseAibHeader() {
+        // this is what an aib export starts with
+        String header = "Posted Account, Posted Transactions Date, Description, Debit Amount, Credit Amount,Balance,Transaction Type";
+
+        assertFalse(new BoiParser().canParse(header));
     }
 }

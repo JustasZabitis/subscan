@@ -18,7 +18,8 @@ public class BoiParser implements StatementParser {
 
     @Override
     public boolean canParse(String headerLine) {
-        return false; // TODO
+        // boi header is exactly this, aib has different column names
+        return headerLine.trim().equals("Date,Details,Debit,Credit,Balance");
     }
 
     @Override
