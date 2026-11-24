@@ -34,7 +34,8 @@ public class BoiParser implements StatementParser {
             DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             LocalDate date = LocalDate.parse(cols[0], format);
 
-            String description = cols[1];
+            // remove the extra spaces boi adds at the end
+            String description = cols[1].trim();
 
             // if debit is empty then its money coming in (credit)
             BigDecimal amount;

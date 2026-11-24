@@ -40,4 +40,15 @@ class BoiParserTest {
 
         assertEquals(new BigDecimal("70.00"), result.get(0).amount());
     }
+
+    @Test
+    void trimsSpacesFromDescription() {
+        // boi adds spaces at the end to make every description 20 characters
+        String csvSpaces = "Date,Details,Debit,Credit,Balance\n"
+                + "28/11/2025,POS27NOV EVER DISH   ,6.30,,\n";
+
+        List<Transaction> result = new BoiParser().parse(new StringReader(csvSpaces));
+
+        assertEquals("POS27NOV EVER DISH", result.get(0).description());
+    }
 }
