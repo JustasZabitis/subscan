@@ -36,8 +36,14 @@ public class AibParser implements StatementParser {
 
             String description = cols[2];
 
-            // debit is money going out so make it minus
-            BigDecimal amount = new BigDecimal(cols[3]).negate();
+            // if debit is empty then its money coming in (credit)
+            BigDecimal amount;
+            if (cols[3].isEmpty()) {
+                amount = new BigDecimal(cols[4]);
+            } else {
+                // debit is money going out so make it minus
+                amount = new BigDecimal(cols[3]).negate();
+            }
 
             transactions.add(new Transaction(date, description, amount, "EUR"));
         }
