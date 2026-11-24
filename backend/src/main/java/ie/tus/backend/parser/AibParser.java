@@ -18,7 +18,9 @@ public class AibParser implements StatementParser {
 
     @Override
     public boolean canParse(String headerLine) {
-        return false; // TODO
+
+        // only aib has a column called "Posted Transactions Date"
+        return headerLine.contains("Posted Transactions Date");
     }
 
     @Override
