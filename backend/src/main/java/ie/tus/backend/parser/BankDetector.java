@@ -9,6 +9,12 @@ public class BankDetector {
     private final List<StatementParser> parsers = List.of(new AibParser(), new BoiParser());
 
     public StatementParser detect(String headerLine) {
-        return null; // TODO
+        // ask each parser if the file is theirs
+        for (StatementParser parser : parsers) {
+            if (parser.canParse(headerLine)) {
+                return parser;
+            }
+        }
+        return null; // no bank matched
     }
 }

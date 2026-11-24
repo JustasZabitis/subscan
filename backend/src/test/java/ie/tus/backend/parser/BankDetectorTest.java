@@ -14,4 +14,11 @@ class BankDetectorTest {
 
         assertEquals("AIB", detector.detect(header).bank());
     }
+
+    @Test
+    void picksBoiParser() {
+        String header = "Date,Details,Debit,Credit,Balance";
+
+        assertEquals("BOI", detector.detect(header).bank());
+    }
 }
