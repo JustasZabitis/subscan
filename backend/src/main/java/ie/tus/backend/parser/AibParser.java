@@ -3,6 +3,8 @@ package ie.tus.backend.parser;
 import java.io.BufferedReader;
 import java.io.Reader;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,15 +26,20 @@ public class AibParser implements StatementParser {
         List<Transaction> transactions = new ArrayList<>();
         List<String> lines = new BufferedReader(csv).lines().toList();
 
-        // start at 1 to skip the header row
+        // skip the first line because its the header and not needed
         for (int i = 1; i < lines.size(); i++) {
             String[] cols = lines.get(i).split(",", -1);
 
-            // column 3 is Debit Amount, money out so make its negative
-            BigDecimal debit = new BigDecimal(cols[3]);
+            // date looks like 06/11/2026
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate date = LocalDate.parse(cols[1], format);
 
-            // date will come later, just the amount for now
-            transactions.add(new Transaction(null, cols[2], debit.negate(), "EUR"));
+            String description = cols[2];
+
+            // debit is money going out so make it minus
+            BigDecimal amount = new BigDecimal(cols[3]).negate();
+
+            transactions.add(new Transaction(date, description, amount, "EUR"));
         }
         return transactions;
     }
