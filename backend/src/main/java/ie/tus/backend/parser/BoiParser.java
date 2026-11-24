@@ -36,8 +36,14 @@ public class BoiParser implements StatementParser {
 
             String description = cols[1];
 
-            // boi has debit in column 2, money going out so make it minus
-            BigDecimal amount = new BigDecimal(cols[2]).negate();
+            // if debit is empty then its money coming in (credit)
+            BigDecimal amount;
+            if (cols[2].isEmpty()) {
+                amount = new BigDecimal(cols[3]);
+            } else {
+                // debit is money going out so make it minus
+                amount = new BigDecimal(cols[2]).negate();
+            }
 
             // date comes next, just the amount for now
             transactions.add(new Transaction(date, description, amount, "EUR"));
