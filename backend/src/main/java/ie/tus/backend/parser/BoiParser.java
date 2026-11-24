@@ -30,6 +30,11 @@ public class BoiParser implements StatementParser {
         for (int i = 1; i < lines.size(); i++) {
             String[] cols = lines.get(i).split(",", -1);
 
+            // skip rows with no date, like the "," line at the end of the file
+            if (cols[0].isBlank()) {
+                continue;
+            }
+
             // date looks like 22/04/2026
             DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             LocalDate date = LocalDate.parse(cols[0], format);
@@ -51,4 +56,6 @@ public class BoiParser implements StatementParser {
         }
         return transactions;
     }
+
+
 }

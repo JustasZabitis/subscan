@@ -51,4 +51,16 @@ class BoiParserTest {
 
         assertEquals("POS27NOV EVER DISH", result.get(0).description());
     }
+
+    @Test
+    void skipsEmptyRowAtEnd() {
+        // the real boi export ends with a line that is just a comma
+        String csvEnd = "Date,Details,Debit,Credit,Balance\n"
+                + "22/04/2026,POS22APR Spotify P41B,6.99,,545.94\n"
+                + ",\n";
+
+        List<Transaction> result = new BoiParser().parse(new StringReader(csvEnd));
+
+        assertEquals(1, result.size());
+    }
 }
