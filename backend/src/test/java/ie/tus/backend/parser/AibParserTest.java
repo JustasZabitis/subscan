@@ -1,5 +1,7 @@
 package ie.tus.backend.parser;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -79,5 +81,16 @@ class AibParserTest {
         String header = "Date,Details,Debit,Credit,Balance";
 
         assertFalse(new AibParser().canParse(header));
+    }
+
+    @Test
+    void readsSampleFile() {
+        // fake aib file in src/test/resources
+        InputStream file = getClass().getResourceAsStream("/aib_sample.csv");
+
+        List<Transaction> result = new AibParser().parse(new InputStreamReader(file));
+
+        // 7 rows in the file but 2 are nothing rows with 0
+        assertEquals(5, result.size());
     }
 }
