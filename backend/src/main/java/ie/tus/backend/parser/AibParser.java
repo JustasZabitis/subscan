@@ -28,6 +28,11 @@ public class AibParser implements StatementParser {
 
         // skip the first line because its the header and not needed
         for (int i = 1; i < lines.size(); i++) {
+            // skip empty lines
+            if (lines.get(i).isBlank()) {
+                continue;
+            }
+
             String[] cols = lines.get(i).split(",", -1);
 
             // date looks like 06/11/2026
