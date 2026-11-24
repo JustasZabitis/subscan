@@ -40,4 +40,17 @@ class AibParserTest {
 
         assertEquals(new BigDecimal("500.00"), result.get(0).amount());
     }
+
+    @Test
+    void skipsZeroRows() {
+        // AIB puts reference numbers on their own row with 0, these arent real transactions
+        String csvJunk = "Posted Account, Posted Transactions Date, Description, Debit Amount, Credit Amount,Balance,Transaction Type\n"
+                + "123456-12345678,12/11/2026,D/D SPECSAVERS,26,,,Debit\n"
+                + "123456-12345678,12/11/2026,IE26111125048932,,0,538.73,Credit\n";
+
+        List<Transaction> result = new AibParser().parse(new StringReader(csvJunk));
+
+        // only the specsavers row should be left
+        assertEquals(1, result.size());
+    }
 }
