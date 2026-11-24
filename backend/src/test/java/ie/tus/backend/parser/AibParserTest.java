@@ -53,4 +53,16 @@ class AibParserTest {
         // only the specsavers row should be left
         assertEquals(1, result.size());
     }
+
+    @Test
+    void skipsBlankLines() {
+        // the  aib exports have an empty line at the end
+        String csvBlank = "Posted Account, Posted Transactions Date, Description, Debit Amount, Credit Amount,Balance,Transaction Type\n"
+                + "123456-12345678,06/11/2026,VDP-NETFLIX.COM,12.99,,40.06,Debit\n"
+                + "\n";
+
+        List<Transaction> result = new AibParser().parse(new StringReader(csvBlank));
+
+        assertEquals(1, result.size());
+    }
 }
