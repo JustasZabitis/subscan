@@ -44,7 +44,10 @@ public class AibParser implements StatementParser {
                 // debit is money going out so make it minus
                 amount = new BigDecimal(cols[3]).negate();
             }
-
+            // skip the junk rows aib adds with 0 (reference numbers etc)
+            if (amount.compareTo(BigDecimal.ZERO) == 0) {
+                continue;
+            }
             transactions.add(new Transaction(date, description, amount, "EUR"));
         }
         return transactions;
