@@ -29,4 +29,15 @@ class BoiParserTest {
         // boi dates are day/month/year too
         assertEquals(LocalDate.of(2026, 4, 22), result.get(0).date());
     }
+
+    @Test
+    void readsCreditAsPositive() {
+        // money coming in, debit is empty and credit has the amount
+        String csvIn = "Date,Details,Debit,Credit,Balance\n"
+                + "05/12/2025,365  money           ,,70.00,292.13\n";
+
+        List<Transaction> result = new BoiParser().parse(new StringReader(csvIn));
+
+        assertEquals(new BigDecimal("70.00"), result.get(0).amount());
+    }
 }
