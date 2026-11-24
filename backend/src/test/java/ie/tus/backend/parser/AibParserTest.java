@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.StringReader;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -19,5 +20,13 @@ class AibParserTest {
         List<Transaction> result = new AibParser().parse(new StringReader(csv));
 
         assertEquals(new BigDecimal("-12.99"), result.get(0).amount());
+    }
+
+    @Test
+    void readsDate() {
+        List<Transaction> result = new AibParser().parse(new StringReader(csv));
+
+        // AIB dates are day/month/year
+        assertEquals(LocalDate.of(2026, 11, 6), result.get(0).date());
     }
 }
