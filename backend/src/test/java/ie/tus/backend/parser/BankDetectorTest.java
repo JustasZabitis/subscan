@@ -1,6 +1,7 @@
 package ie.tus.backend.parser;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
@@ -20,5 +21,13 @@ class BankDetectorTest {
         String header = "Date,Details,Debit,Credit,Balance";
 
         assertEquals("BOI", detector.detect(header).bank());
+    }
+
+    @Test
+    void unknownBankThrowsError() {
+        // some random csv that isnt from aib or boi
+        String header = "Name,Age,Town";
+
+        assertThrows(IllegalArgumentException.class, () -> detector.detect(header));
     }
 }

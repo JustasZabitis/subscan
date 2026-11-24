@@ -15,6 +15,7 @@ public class BankDetector {
                 return parser;
             }
         }
-        return null; // no bank matched
+        // no bank matched so tell the user
+        throw new IllegalArgumentException("Sorry, this file isn't from a bank SubScan supports yet");
     }
 }
