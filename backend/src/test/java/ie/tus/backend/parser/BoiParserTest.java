@@ -1,5 +1,7 @@
 package ie.tus.backend.parser;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -77,5 +79,16 @@ class BoiParserTest {
         String header = "Posted Account, Posted Transactions Date, Description, Debit Amount, Credit Amount,Balance,Transaction Type";
 
         assertFalse(new BoiParser().canParse(header));
+    }
+
+    @Test
+    void readsSampleFile() {
+        // fake boi file in src/test/resources
+        InputStream file = getClass().getResourceAsStream("/boi_sample.csv");
+
+        List<Transaction> result = new BoiParser().parse(new InputStreamReader(file));
+
+        // 6 real rows, the "," line at the end gets skipped
+        assertEquals(6, result.size());
     }
 }
