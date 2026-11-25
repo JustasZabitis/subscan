@@ -32,4 +32,20 @@ class MerchantCleanerTest {
         assertEquals("Spotify", cleaner.clean("POS22APR Spotify P41B"));
         assertEquals("Spotify", cleaner.clean("POS22MAY Spotify P42B"));
     }
+
+    @Test
+    void showsRealMerchantBehindSumUp() {
+        // sumup is a card reader company, the real shop is after the *
+        assertEquals("WOL", cleaner.clean("POSC12MAR SUMUP  *WOL"));
+    }
+
+    @Test
+    void showsRealMerchantBehindPaypal() {
+        assertEquals("STEAM", cleaner.clean("VDP-PAYPAL *STEAM"));
+    }
+
+    @Test
+    void showsRealMerchantBehindSquare() {
+        assertEquals("SOS COO", cleaner.clean("POSC13APR SQ *SOS COO"));
+    }
 }

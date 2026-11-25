@@ -21,6 +21,14 @@ public class MerchantCleaner {
     public String clean(String description) {
         String name = description;
 
+        // payment companies like sumup, paypal and square hide the real shop
+        // the real shop name comes after the *
+        String upper = name.toUpperCase();
+        if (upper.startsWith("SUMUP") || upper.startsWith("PAYPAL") || upper.startsWith("SQ *")) {
+            int star = name.indexOf("*");
+            name = name.substring(star + 1);
+        }
+
         // boi card payments start with POSC or POS and then the date, e.g. POSC27NOV
         if (name.startsWith("POSC")) {
             name = name.substring(10); // "POSC27NOV " is 10 characters long
