@@ -21,6 +21,17 @@ public class MerchantCleaner {
     public String clean(String description) {
         String name = description;
 
+        // boi card payments start with POSC or POS and then the date, e.g. POSC27NOV
+        if (name.startsWith("POSC")) {
+            name = name.substring(10); // "POSC27NOV " is 10 characters long
+        } else if (name.startsWith("POS")) {
+            name = name.substring(9);  // "POS22APR " is 9 characters long
+        } else if (name.startsWith("VDP-") || name.startsWith("VDC-")) {
+            name = name.substring(4); // aib card payments, "VDP-" is 4 characters
+        } else if (name.startsWith("D/D ")) {
+            name = name.substring(4); // aib direct debits, "D/D " is 4 characters
+        }
+
         // payment companies like sumup, paypal and square hide the real shop
         // the real shop name comes after the *
         String upper = name.toUpperCase();
@@ -29,17 +40,12 @@ public class MerchantCleaner {
             name = name.substring(star + 1);
         }
 
-        // boi card payments start with POSC or POS and then the date, e.g. POSC27NOV
-        if (name.startsWith("POSC")) {
-            name = name.substring(10); // "POSC27NOV " is 10 characters long
-        } else if (name.startsWith("POS")) {
-            name = name.substring(9);  // "POS22APR " is 9 characters long
+        // cut off card numbers like **5376*
+        int stars = name.indexOf("**");
+        if (stars != -1) {
+            name = name.substring(0, stars);
         }
-        else if (name.startsWith("VDP-") || name.startsWith("VDC-")) {
-            name = name.substring(4); // aib card payments, "VDP-" is 4 characters
-        } else if (name.startsWith("D/D ")) {
-            name = name.substring(4); // aib direct debits, "D/D " is 4 characters
-        }
+
         // if its a merchant we know, use its proper name
         for (String keyword : knownMerchants.keySet()) {
             if (name.toUpperCase().contains(keyword)) {
