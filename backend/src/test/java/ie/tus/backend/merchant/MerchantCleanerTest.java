@@ -48,4 +48,10 @@ class MerchantCleanerTest {
     void showsRealMerchantBehindSquare() {
         assertEquals("SOS COO", cleaner.clean("POSC13APR SQ *SOS COO"));
     }
+
+    @Test
+    void removesCardNumber() {
+        // revolut top ups show part of the card number after **
+        assertEquals("Revolut", cleaner.clean("VDP-Revolut**5376*"));
+    }
 }
