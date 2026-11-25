@@ -13,4 +13,10 @@ class MerchantCleanerTest {
         // boi puts POSC + the date at the start of card payments
         assertEquals("EVER DISH", cleaner.clean("POSC27NOV EVER DISH"));
     }
+
+    @Test
+    void removesBoiPosPrefix() {
+        // online payments use POS without the C
+        assertEquals("Spotify P41B", cleaner.clean("POS22APR Spotify P41B"));
+    }
 }
