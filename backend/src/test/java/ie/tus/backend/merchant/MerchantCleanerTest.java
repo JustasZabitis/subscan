@@ -25,4 +25,11 @@ class MerchantCleanerTest {
         // aib card payments start with VDP- or VDC-
         assertEquals("SNAPFITNES* SN", cleaner.clean("VDP-SNAPFITNES* SN"));
     }
+
+    @Test
+    void sameMerchantGetsSameName() {
+        // spotify puts a different reference on the end every month
+        assertEquals("Spotify", cleaner.clean("POS22APR Spotify P41B"));
+        assertEquals("Spotify", cleaner.clean("POS22MAY Spotify P42B"));
+    }
 }
