@@ -59,4 +59,34 @@ class MerchantCleanerTest {
     void removesCardNumberBoi() {
         assertEquals("Revolut", cleaner.clean("POS04JUL Revolut**509"));
     }
+
+    @Test
+    void cleansRealBoiDescriptions() {
+        // real descriptions from my own boi export
+        assertEquals("NYA*Vending", cleaner.clean("POSC22NOV NYA*Vending"));
+        assertEquals("LEAP CARD AP", cleaner.clean("POS27NOV LEAP CARD AP"));
+        assertEquals("TESCO STORE", cleaner.clean("POSC12JAN TESCO STORE"));
+        assertEquals("OMNIPLEX CA", cleaner.clean("POSC24SEP OMNIPLEX CA"));
+        assertEquals("The GYM Car", cleaner.clean("POSC19SEP The GYM Car"));
+        assertEquals("Microsoft", cleaner.clean("POS03DEC Microsoft*PC"));
+        assertEquals("Microsoft", cleaner.clean("POS19MAY MICROSOFT*ST"));
+        assertEquals("Zenimax", cleaner.clean("POS11DEC ZENIMAX EURO"));
+        assertEquals("Spotify", cleaner.clean("POS22JUN Spotify P43C"));
+        assertEquals("Amazon", cleaner.clean("POS05JAN Amazon.ie"));
+    }
+
+    @Test
+    void cleansMoreRealDescriptions() {
+        // more real descriptions from boi and a volunteer aib export
+        assertEquals("Tax", cleaner.clean("POSC30JAN SumUp  *Tax"));
+        assertEquals("Revolut", cleaner.clean("POS04JUL Revolut**509"));
+        assertEquals("MGP*Vinted", cleaner.clean("POS30JUN MGP*Vinted"));
+        assertEquals("VESTA  *EIR", cleaner.clean("POS27AUG VESTA  *EIR"));
+        assertEquals("Snap Fitness", cleaner.clean("VDP-SNAPFITNES* SN"));
+        assertEquals("Specsavers", cleaner.clean("D/D SPECSAVERS"));
+        assertEquals("STEAM", cleaner.clean("VDP-PAYPAL *STEAM"));
+        assertEquals("Revolut", cleaner.clean("VDP-Revolut**5376*"));
+        assertEquals("Tommy Hilfiger", cleaner.clean("VDC-Tommy Hilfiger"));
+        assertEquals("ACCOUNT FEE OCT 26", cleaner.clean("ACCOUNT FEE OCT 26"));
+    }
 }
