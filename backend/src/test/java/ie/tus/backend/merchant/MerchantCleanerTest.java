@@ -19,4 +19,10 @@ class MerchantCleanerTest {
         // online payments use POS without the C
         assertEquals("Spotify P41B", cleaner.clean("POS22APR Spotify P41B"));
     }
+
+    @Test
+    void removesAibCardPrefix() {
+        // aib card payments start with VDP- or VDC-
+        assertEquals("SNAPFITNES* SN", cleaner.clean("VDP-SNAPFITNES* SN"));
+    }
 }

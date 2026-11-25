@@ -13,6 +13,11 @@ public class MerchantCleaner {
         } else if (name.startsWith("POS")) {
             name = name.substring(9);  // "POS22APR " is 9 characters long
         }
+        else if (name.startsWith("VDP-") || name.startsWith("VDC-")) {
+            name = name.substring(4); // aib card payments, "VDP-" is 4 characters
+        } else if (name.startsWith("D/D ")) {
+            name = name.substring(4); // aib direct debits, "D/D " is 4 characters
+        }
 
         return name.trim();
     }
