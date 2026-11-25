@@ -17,13 +17,13 @@ class MerchantCleanerTest {
     @Test
     void removesBoiPosPrefix() {
         // online payments use POS without the C
-        assertEquals("Spotify P41B", cleaner.clean("POS22APR Spotify P41B"));
+        assertEquals("G2G", cleaner.clean("POS19JUN G2G"));
     }
 
     @Test
     void removesAibCardPrefix() {
         // aib card payments start with VDP- or VDC-
-        assertEquals("SNAPFITNES* SN", cleaner.clean("VDP-SNAPFITNES* SN"));
+        assertEquals("TESCO STORE 35", cleaner.clean("VDC-TESCO STORE 35"));
     }
 
     @Test
@@ -53,5 +53,10 @@ class MerchantCleanerTest {
     void removesCardNumber() {
         // revolut top ups show part of the card number after **
         assertEquals("Revolut", cleaner.clean("VDP-Revolut**5376*"));
+    }
+
+    @Test
+    void removesCardNumberBoi() {
+        assertEquals("Revolut", cleaner.clean("POS04JUL Revolut**509"));
     }
 }
