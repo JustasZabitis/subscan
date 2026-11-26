@@ -76,4 +76,6 @@ I'm using GitHub Issues for user stories and a GitHub Projects board with two-we
 
 ## Status
 
-Sprint 1 (Nov 2026). The backend is set up, connected to Supabase, and CI is working. Next up are the AIB and Bank of Ireland parsers.
+Sprint 1 (Nov 2026) is done. The backend is connected to Supabase, CI runs the tests on every pull request, and SubScan can read AIB and Bank of Ireland CSV exports, detect which bank a file came from, and clean up merchant names. The Sprint 1 go / no-go check on real statements found all the known subscriptions, so the project is going ahead as planned.
+
+Next (Sprint 2): the first version of the subscription detection engine.
